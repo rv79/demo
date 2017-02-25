@@ -1,0 +1,18 @@
+<h2>Mongo Search</h2>
+
+<form>
+  <div class="form-group">
+    <label for="name">Name</label>
+    <input #name type="text" (keyup)="onChange(name)" class="form-control" id="name">
+  </div>
+</form>
+<p></p>
+<table>
+  <tr *ngFor="let client of clients">
+    <td>{{client.firstName}}</td>
+    <td>{{client.lastName}}</td>
+    <td>{{client.email}}</td>
+  </tr>
+</table>
+
+<p *ngIf="errorMessage">{{errorMessage}}</p>
