@@ -1,6 +1,7 @@
 package com.demo.domain;
 
-import com.github.javafaker.Faker;
+import io.codearte.jfairy.Fairy;
+import io.codearte.jfairy.producer.person.Person;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
@@ -34,11 +35,24 @@ public class Client {
     public Client () {}
 
     public void fake () {
+        // use fairy faker
+        // https://github.com/Codearte/jfairy
+
+        Fairy fairy = Fairy.create();
+        Person person = fairy.person();
+
+        this.name = person.getFullName();
+        this.firstName = person.getFirstName();
+        this.lastName = person.getLastName();
+        this.email = person.getEmail();
+
+        /*
         Faker faker = new Faker();
 
         this.firstName = faker.name().firstName(); // Emory
         this.lastName = faker.name().lastName(); // Barton
         this.name = this.firstName + " " + this.lastName;
+        */
     }
 
     public void reset () {

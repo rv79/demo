@@ -48,21 +48,27 @@ public class ClientService {
         //                                                  Criteria.where("first_name").regex(name,"i")));
 
         Query query = new Query(Criteria.where("name").regex(name,"i"));
-        return mongoTemplate.find(query, Client.class);
+        return mongoTemplate.find(query.limit(20), Client.class);
     }
 
     public void fakeClients (int number) {
-        List<Client> clients = new ArrayList<>();
+        List<Client> clients;
+
+        int chunk = 1000;
+        int loop = number / chunk;
+
         Client client;
-        int i = 0;
-        while (i<number) {
-            client = new Client();
-            client.fake();
-            clients.add(client);
-            i++;
+
+        for (int i=0 ; i<loop ; i++) {
+            clients = new ArrayList<>();
+            for (int j=0 ; j<chunk ; j++) {
+                client = new Client();
+                client.reset();
+                client.fake();
+                clients.add(client);
+            }
+            logger.info("insert "+chunk+" clients");
+            clientRepository.insert(clients);
         }
-        logger.info("start insert");
-        clientRepository.insert(clients);
-        logger.info("end insert");
     }
 }
